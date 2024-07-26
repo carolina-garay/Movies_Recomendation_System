@@ -4,7 +4,8 @@ import pandas as pd
 from typing import Optional
 
 # Punto de partida para construir una aplicación web API
-app = FastAPI(title="API de Películas", description="API para consultas sobre películas by Carolina Garay")
+app = FastAPI(title="Películas: Recomendaciones", description="API para consultas sobre películas by Carolina Garay",
+               docs_url="/docs")
 
 # Leer los archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
