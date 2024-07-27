@@ -4,24 +4,22 @@ import pandas as pd
 from typing import Optional
 
 # Punto de partida para construir una aplicación web API
-app = FastAPI(title="Películas: Recomendaciones", description="API para consultas sobre películas by Carolina Garay",
+app = FastAPI(title="Películas...hacé tu consulta!", description="API para consultas sobre películas by Carolina Garay",
                docs_url="/docs")
 
 # Leer los archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
 
-# Convertir la columna release_date a tipo datetime
-df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')
 
 # Ruta de inicio
 @app.get("/")
 async def index():
-    return {"message": "¡Bienvenid@ a la API de Películas by Carolina Garay!"}
+    return "¡Bienvenid@ a la API de Películas by Carolina Garay!"
 
 # Ruta de información
 @app.get("/about")
 async def about():
-    return {"message": "Esta aplicación ha sido creada por Carolina Garay."}
+    return "Esta aplicación ha sido creada por Carolina Garay"
 
 # Ruta de cantidad de filmaciones para un determinado mes 
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
@@ -62,7 +60,7 @@ async def score_titulo(titulo: str):
     if pelicula.empty:
         raise HTTPException(status_code=404, detail="Título no encontrado.")
     resultado = pelicula[['title', 'release_year', 'vote_average']].to_dict(orient='records')[0]
-    return {"title": resultado['title'], "release_year": resultado['release_year'], "score": resultado['vote_average']}
+    return {"Título de la película": resultado['title'], "Año": resultado['release_year'], "Puntaje": resultado['vote_average']}
 
 # Ruta de votos por título
 @app.get("/votos_titulo/{titulo}", name="Votos por título de película")
@@ -71,15 +69,24 @@ async def votos_titulo(titulo: str):
     pelicula = df[df['title'].str.contains(titulo, case=False, na=False)]
     if pelicula.empty:
         raise HTTPException(status_code=404, detail="Título no encontrado.")
-    pelicula = pelicula.iloc[0]
-    if pelicula['vote_count'] < 2000:
-        return {"message": "La película no cumple con la condición de tener al menos 2000 valoraciones."}
-    return {
-        "title": pelicula['title'],
-        "release_year": pelicula['release_year'],
-        "vote_count": pelicula['vote_count'],
-        "vote_average": pelicula['vote_average']
-    }
+    else:
+        year_es = int(pelicula["release_year"].iloc[0])
+        voto_tot = int(pelicula["vote_count"].iloc[0])
+        voto_prom = pelicula["vote_average"].iloc[0]
+        # Retornar el nombre del titulo ubicado en la columna title
+        titulo = pelicula["title"].iloc[0]
+        if voto_tot >= 2000:
+            # muestra los datos
+            return {
+                'Título de la película': titulo, 
+                 'Año': year_es, 
+                 'Voto total': voto_tot, 
+                 'Voto promedio': voto_prom
+            }
+        else:
+            # En caso de que la cantidad de votos sea menor a 2000
+            return f"La película {titulo} no cumple con la condición de tener al menos 2000 valoraciones "
+        
 
 # Ruta para obtener información de un actor
 @app.get("/get_actor/{nombre_actor}", name="Información de actor")
@@ -92,10 +99,10 @@ async def get_actor(nombre_actor: str):
     cantidad_peliculas = actor_data.shape[0]
     promedio_retorno = total_retorno / cantidad_peliculas if cantidad_peliculas > 0 else 0
     return {
-        "actor": nombre_actor,
-        "cantidad_peliculas": cantidad_peliculas,
-        "total_retorno": total_retorno,
-        "promedio_retorno": promedio_retorno
+        "Actor/Actriz": nombre_actor,
+        "Cantidad de películas": cantidad_peliculas,
+        "Retorno Total": total_retorno,
+        "Retorno Promedio": promedio_retorno
     }
 
 # Ruta para obtener información de un director
@@ -108,15 +115,15 @@ async def get_director(nombre_director: str):
     resultado = []
     for index, row in director_data.iterrows():
         resultado.append({
-            "title": row['title'],
-            "release_date": row['release_date'],
-            "return": row['return'],
-            "budget": row['budget'],
-            "revenue": row['revenue']
+            "Título de la película": row['title'],
+            "Fecha de lanzamiento": row['release_date'],
+            "Retorno": row['return'],
+            "Presupuesto": row['budget'],
+            "Ganancia": row['revenue']
         })
     total_retorno = director_data['return'].sum()
     return {
-        "director": nombre_director,
-        "total_retorno": total_retorno,
-        "peliculas": resultado
+        "Director": nombre_director,
+        "Retorno Total": total_retorno,
+        "Películas": resultado
     }
