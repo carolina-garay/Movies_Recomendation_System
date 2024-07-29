@@ -1,6 +1,8 @@
 # Importación de librerías necesarias
 from fastapi import FastAPI, HTTPException
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from typing import Optional
 
 # Punto de partida para construir una aplicación web API
@@ -9,6 +11,7 @@ app = FastAPI(title="Películas...hacé tu consulta!", description="API para con
 
 # Leer los archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
+model1 = pd.read_parquet("movies_model.parquet")
 
 
 # Ruta de inicio
@@ -127,3 +130,39 @@ async def get_director(nombre_director: str):
         "Retorno Total": total_retorno,
         "Películas": resultado
     }
+
+
+#Machine Learning
+# Crear una instancia de TfidfVectorizer con los parámetros deseados
+tfidf_1 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+# Se manejan los valores nan
+model1['overview'] = model1['overview'].fillna('') # Replace None with empty strings
+# Aplicar la transformación TF-IDF al atributo 'overview'
+tfidf_matriz_1 = tfidf_1.fit_transform(model1['overview'])
+
+
+# Ruta de recomendación de peliculas
+# Función para obtener recomendaciones
+@app.get('/recomendacion_m1/{titulo}', name = "Sistema de recomendación")
+def recomendacion_m1(titulo):
+    # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
+    indices = pd.Series(model1.index, index=model1['title']).drop_duplicates()
+    if titulo not in indices:
+        return 'La pelicula ingresada no se encuentra en la base de datos'
+    else:
+        # Obtener el índice de la película que coincide con el título
+        idx = pd.Series(indices[titulo]) if titulo in indices else None
+        # Si el título de la película está duplicado, devolver el índice de la primera aparición del título en el DataFrame
+        if model1.duplicated(['title']).any():
+            primer_idx = model1[model1['title'] == titulo].index[0]
+            if not idx.equals(pd.Series(primer_idx)):
+                idx = pd.Series(primer_idx)
+        # Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
+        cosine_sim = cosine_similarity(tfidf_matriz_1[idx], tfidf_matriz_1).flatten()
+        simil = sorted(enumerate(cosine_sim), key=lambda x: x[1], reverse=True)[1:6]
+        # Verificar que los índices obtenidos son válidos
+        valid_indices = [i[0] for i in simil if i[0] < len(model1)]
+         # Obtener los títulos de las películas más similares utilizando el índice de cada película
+        recomendaciones = model1.iloc[valid_indices]['title'].tolist()
+        # Devolver la lista de títulos de las películas recomendadas
+        return recomendaciones
