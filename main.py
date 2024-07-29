@@ -133,9 +133,6 @@ async def get_director(nombre_director: str):
 
 
 #Machine Learning
-# Se manejan los valores nan
-model2['overview'] = model2['overview'].fillna('')
-model2['first_director'] = model2['first_director'].fillna('')
 #Se separan los géneros y se convierten en palabras individuales
 model2['first_director'] = model2['first_director'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
 model2['concatenado'] = model2['overview'] + ' ' + model2['first_director']
