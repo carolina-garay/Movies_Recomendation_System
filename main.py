@@ -11,7 +11,7 @@ app = FastAPI(title="Películas...hacé tu consulta!", description="API para con
 
 # Leer los archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
-model1 = pd.read_parquet("movies_model1.parquet")
+model4 = pd.read_parquet("movies_model4.parquet")
 
 
 # Ruta de inicio
@@ -133,37 +133,39 @@ async def get_director(nombre_director: str):
 
 
 #Machine Learning
-# Crear una instancia de TfidfVectorizer con los parámetros deseados
-tfidf_1 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
-# Aplicar la transformación TF-IDF al contenido 
-tfidf_matriz_1 = tfidf_1.fit_transform(model1['overview'])
+# Se realiza un preprocesamiento en la columna "genres" para separar los géneros y convertirlos en palabras individuales
+model4['name_gen'] = model4['name_gen'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
+# Se crea una instancia de la clase TfidfVectorizer con los parámetros deseados
+tfidf_4 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+# Aplicar la transformación TF-IDF al texto contenido en las columnas "overview_clean", "genres" y "director" del dataframe 'modelo4'
+tfidf_matriz_4 = tfidf_4.fit_transform(model4['name_gen'] + ' ' + model4['first_actor'] + ' ' + model4['first_director'])
 # Función para obtener recomendaciones
 @app.get('/recomendacion_m1/{titulo}', name = "Sistema de recomendación")
-async def recomendacion_m1(titulo):
-    #Crea una nueva Serie donde los índices son los títulos de las películas y los valores son los índices originales del DataFrame.
-    indices = pd.Series(model1.index, index=model1['title']).drop_duplicates()
-    
+async def recomendacion_m4(titulo):
+    # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
+    indices = pd.Series(model4.index, index=model4['title']).drop_duplicates()
+
     if titulo not in indices:
         return 'La pelicula ingresada no se encuentra en la base de datos'
     else:
         # Obtener el índice de la película que coincide con el título
         idx = pd.Series(indices[titulo]) if titulo in indices else None
-        
+
         # Si el título de la película está duplicado, devolver el índice de la primera aparición del título en el DataFrame
-        if model1.duplicated(['title']).any():
-            primer_idx = model1[model1['title'] == titulo].index[0]
+        if model4.duplicated(['title']).any():
+            primer_idx = model4[model4['title'] == titulo].index[0]
             if not idx.equals(pd.Series(primer_idx)):
                 idx = pd.Series(primer_idx)
-        
+
         # Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
-        cosine_sim = cosine_similarity(tfidf_matriz_1[idx], tfidf_matriz_1).flatten()
+        cosine_sim = cosine_similarity(tfidf_matriz_4[idx], tfidf_matriz_4).flatten()
         simil = sorted(enumerate(cosine_sim), key=lambda x: x[1], reverse=True)[1:6]
-        
+
         # Verificar que los índices obtenidos son válidos
-        valid_indices = [i[0] for i in simil if i[0] < len(model1)]
-        
+        valid_indices = [i[0] for i in simil if i[0] < len(model4)]
+
         # Obtener los títulos de las películas más similares utilizando el índice de cada película
-        recomendaciones = model1.iloc[valid_indices]['title'].tolist()
-        
+        recomendaciones = model4.iloc[valid_indices]['title'].tolist()
+
         # Devolver la lista de títulos de las películas recomendadas
         return recomendaciones
