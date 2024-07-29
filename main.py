@@ -100,7 +100,7 @@ async def get_actor(nombre_actor: str):
         raise HTTPException(status_code=404, detail="Actor no encontrado.")
     total_retorno = actor_data['return'].sum()
     cantidad_peliculas = actor_data.shape[0]
-    promedio_retorno = total_retorno / cantidad_peliculas if cantidad_peliculas > 0 else 0
+    promedio_retorno = actor_data['return'].mean() 
     return {
         "Actor/Actriz": nombre_actor,
         "Cantidad de películas": cantidad_peliculas,
