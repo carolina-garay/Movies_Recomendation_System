@@ -141,7 +141,7 @@ tfidf_4 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
 # Aplicar la transformación TF-IDF al texto contenido en las columnas "overview_clean", "genres" y "director" del dataframe 'modelo4'
 tfidf_matriz_4 = tfidf_4.fit_transform(model4['name_gen'] + ' ' + model4['first_actor'] + ' ' + model4['first_director'])
 # Función para obtener recomendaciones
-@app.get('/recomendacion_m1/{titulo}', name = "Sistema de recomendación")
+@app.get('/recomendacion_m4/{titulo}', name = "Sistema de recomendación")
 async def recomendacion_m4(titulo):
     # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
     indices = pd.Series(model4.index, index=model4['title']).drop_duplicates()
