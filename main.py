@@ -91,7 +91,8 @@ async def votos_titulo(titulo: str):
             return f"La película {titulo} no cumple con la condición de tener al menos 2000 valoraciones "
         
 
-# Ruta para obtener información de un actor
+
+#Ruta para obtener información de un actor
 @app.get("/get_actor/{nombre_actor}", name="Información de actor")
 async def get_actor(nombre_actor: str):
     '''Se ingresa el nombre de un actor y se retorna su éxito medido a través del retorno, cantidad de películas y promedio de retorno.'''
