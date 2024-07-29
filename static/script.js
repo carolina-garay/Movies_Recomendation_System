@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://movies-recomendation-system-2.onrender.com';
+const API_BASE_URL = 'https://movies-recomendation-system-2.onrender.com/docs';
 
 async function consultarCantidadMes() {
     const mes = document.getElementById('mes-input').value.toLowerCase();
