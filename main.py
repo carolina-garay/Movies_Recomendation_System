@@ -3,50 +3,26 @@ from fastapi import FastAPI, HTTPException
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
-from datetime import datetime
 
 # Punto de partida para construir una aplicación web API
 app = FastAPI(title="Películas...hacé tu consulta!", description="API para consultas sobre películas by Carolina Garay",
-              docs_url="/docs")
+               docs_url="/docs")
 
 # Leer los archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
 model4 = pd.read_parquet("movies_model4.parquet")
 
-# Configuración de CORS para permitir solicitudes desde otros dominios
-origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "https://your-domain.com",
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configuración para servir archivos estáticos
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Configuración para usar plantillas HTML con Jinja2
-templates = Jinja2Templates(directory="templates")
 
 # Ruta de inicio
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 async def index():
-    return templates.TemplateResponse("index.html", {"request": {}})
+    return "¡Bienvenid@ a la API de Películas by Carolina Garay!"
 
 # Ruta de información
 @app.get("/about")
 async def about():
-    return {"message": "Esta aplicación ha sido creada por Carolina Garay"}
+    return "Esta aplicación ha sido creada por Carolina Garay"
 
 # Ruta de cantidad de filmaciones para un determinado mes 
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
@@ -113,6 +89,8 @@ async def votos_titulo(titulo: str):
         else:
             # En caso de que la cantidad de votos sea menor a 2000
             return f"La película {titulo} no cumple con la condición de tener al menos 2000 valoraciones "
+        
+
 
 #Ruta para obtener información de un actor
 @app.get("/get_actor/{nombre_actor}", name="Información de actor")
@@ -154,15 +132,22 @@ async def get_director(nombre_director: str):
         "Películas": resultado
     }
 
-# Machine Learning para recomendaciones
-@app.get('/recomendacion_m1/{titulo}', name="Sistema de recomendación")
-async def recomendacion_m4(titulo: str):
-    '''Se ingresa el título de una película y se retornan recomendaciones basadas en géneros, primer actor y primer director.'''
-    # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model4'
+
+#Machine Learning
+# Se realiza un preprocesamiento en la columna "genres" para separar los géneros y convertirlos en palabras individuales
+model4['name_gen'] = model4['name_gen'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
+# Se crea una instancia de la clase TfidfVectorizer con los parámetros deseados
+tfidf_4 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+# Aplicar la transformación TF-IDF al texto contenido en las columnas "overview_clean", "genres" y "director" del dataframe 'modelo4'
+tfidf_matriz_4 = tfidf_4.fit_transform(model4['name_gen'] + ' ' + model4['first_actor'] + ' ' + model4['first_director'])
+# Función para obtener recomendaciones
+@app.get('/recomendacion_m1/{titulo}', name = "Sistema de recomendación")
+async def recomendacion_m4(titulo):
+    # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
     indices = pd.Series(model4.index, index=model4['title']).drop_duplicates()
 
     if titulo not in indices:
-        raise HTTPException(status_code=404, detail="La película ingresada no se encuentra en la base de datos")
+        return 'La pelicula ingresada no se encuentra en la base de datos'
     else:
         # Obtener el índice de la película que coincide con el título
         idx = pd.Series(indices[titulo]) if titulo in indices else None
@@ -174,9 +159,6 @@ async def recomendacion_m4(titulo: str):
                 idx = pd.Series(primer_idx)
 
         # Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
-        tfidf_4 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
-        model4['name_gen'] = model4['name_gen'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
-        tfidf_matriz_4 = tfidf_4.fit_transform(model4['name_gen'] + ' ' + model4['first_actor'] + ' ' + model4['first_director'])
         cosine_sim = cosine_similarity(tfidf_matriz_4[idx], tfidf_matriz_4).flatten()
         simil = sorted(enumerate(cosine_sim), key=lambda x: x[1], reverse=True)[1:6]
 
