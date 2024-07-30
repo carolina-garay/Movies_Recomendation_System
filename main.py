@@ -20,19 +20,19 @@ async def index():
     return "¡Bienvenid@ a la API de Películas by Carolina Garay!"
 
 #Ruta de información
-@app.get("/Creación")
-async def Creación():
+@app.get("/Propietaria")
+async def Propietaria():
     return "Esta aplicación ha sido creada por Carolina Garay"
 
 #Ruta de cantidad de películas para un mes particular
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
 async def cantidad_peliculas_mes(mes: str):
-    '''Se ingresa el mes y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
+    '''Se ingresa el mes n mayúscula, por ejemplo Abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
     mes = mes.lower()
     meses = {
-        'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,
-        'mayo': 5, 'junio': 6, 'julio': 7, 'agosto': 8,
-        'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
+        'Enero': 1, 'Febrero': 2, 'Marzo': 3, 'Abril': 4,
+        'Mayo': 5, 'Junio': 6, 'Julio': 7, 'Agosto': 8,
+        'Septiembre': 9, 'Octubre': 10, 'Noviembre': 11, 'Diciembre': 12
     }
     if mes not in meses:
         raise HTTPException(status_code=400, detail=f"El mes {mes} no es válido")
@@ -43,11 +43,11 @@ async def cantidad_peliculas_mes(mes: str):
 #Ruta de cantidad de películas para un día particular 
 @app.get("/cantidad_peliculas_dia/{dia}", name="Cantidad de películas (día)")
 async def cantidad_peliculas_dia(dia: str):
-    '''Se ingresa el día y la función retorna la cantidad de películas que se estrenaron ese día.'''
+    '''Se ingresa el día en mayúscula por ejemplo Sábado, y la función retorna la cantidad de películas que se estrenaron ese día.'''
     dia = dia.lower()
     dias = {
-        'lunes': 0, 'martes': 1, 'miércoles': 2, 'jueves': 3,
-        'viernes': 4, 'sábado': 5, 'domingo': 6
+        'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3,
+        'Viernes': 4, 'Sábado': 5, 'Domingo': 6
     }
     if dia not in dias:
         raise HTTPException(status_code=400, detail=f"El día {dia} no es válido")
@@ -55,7 +55,7 @@ async def cantidad_peliculas_dia(dia: str):
     cantidad = df[df['release_date'].dt.weekday == num_dia].shape[0]
     return f"En el día {dia} se estrenaron {cantidad} películas"
 
-# Ruta de score por título
+#Ruta de score por título
 @app.get("/score_titulo/{titulo}", name="Score por título de película")
 async def score_titulo(titulo: str):
     '''Se ingresa el título de una película y se retorna el título, el año de estreno y el score.'''
@@ -65,7 +65,7 @@ async def score_titulo(titulo: str):
     resultado = pelicula[['title', 'release_year', 'vote_average']].to_dict(orient='records')[0]
     return {"Título de la película": resultado['title'], "Año": resultado['release_year'], "Puntaje": resultado['vote_average']}
 
-# Ruta de votos por título
+#Ruta de votos por título
 @app.get("/votos_titulo/{titulo}", name="Votos por título de película")
 async def votos_titulo(titulo: str):
     '''Se ingresa el título de una película y se retorna el título, la cantidad de votos y el promedio de votaciones.'''
@@ -109,7 +109,7 @@ async def get_actor(nombre_actor: str):
         "Retorno Promedio": promedio_retorno
     }
 
-# Ruta para obtener información de un director
+#Ruta para obtener información de un director
 @app.get("/get_director/{nombre_director}", name="Información de director")
 async def get_director(nombre_director: str):
     '''Se ingresa el nombre de un director y se retorna su éxito medido a través del retorno, nombre de cada película, fecha de lanzamiento, retorno individual, costo y ganancia.'''
@@ -145,30 +145,24 @@ tfidf_matriz_5 = tfidf_5.fit_transform(model5['name_gen'] + ' ' + model5['taglin
 #Función para obtener recomendaciones
 @app.get('/recomendacion/{titulo}', name = "Sistema de recomendación")
 async def recomendacion(titulo):
-    #Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
+    #Crear una serie que asigna un índice a cada título de las películas
     indices = pd.Series(model5.index, index=model5['title']).drop_duplicates()
-
     if titulo not in indices:
         return 'La pelicula ingresada no se encuentra en la base de datos'
     else:
         #Obtener el índice de la película que coincide con el título
-        idx = pd.Series(indices[titulo]) if titulo in indices else None
-
+        ind = pd.Series(indices[titulo]) if titulo in indices else None
         #Si el título de la película está duplicado, devolver el índice de la primera aparición del título en el DataFrame
         if model5.duplicated(['title']).any():
-            primer_idx = model5[model5['title'] == titulo].index[0]
-            if not idx.equals(pd.Series(primer_idx)):
-                idx = pd.Series(primer_idx)
-
+            primer_ind = model5[model5['title'] == titulo].index[0]
+            if not ind.equals(pd.Series(primer_ind)):
+                ind = pd.Series(primer_ind)
         #Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
-        cosine_sim = cosine_similarity(tfidf_matriz_5[idx], tfidf_matriz_5).flatten()
+        cosine_sim = cosine_similarity(tfidf_matriz_5[ind], tfidf_matriz_5).flatten()
         simil = sorted(enumerate(cosine_sim), key=lambda x: x[1], reverse=True)[1:6]
-
         #Verificar que los índices obtenidos son válidos
-        valid_indices = [i[0] for i in simil if i[0] < len(model5)]
-
+        valid_ind = [i[0] for i in simil if i[0] < len(model5)]
         #Obtener los títulos de las películas más similares utilizando el índice de cada película
-        recomendaciones = model5.iloc[valid_indices]['title'].tolist()
-
+        recomendaciones = model5.iloc[valid_ind]['title'].tolist()
         #Devolver la lista de títulos de las películas recomendadas
         return recomendaciones
