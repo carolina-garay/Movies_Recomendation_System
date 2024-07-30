@@ -5,7 +5,7 @@
 
 # <h1 align=center>**`Machine Learning Operations (MLOps)`**</h1>
 
-![MLops](assets/MLOps.png)
+![MLops](assets/MLops.webp)
 
 ## ```Introducción```
 
