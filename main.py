@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from typing import Optional
 
 #Inicio
-app = FastAPI(title="Películas...hacé tu consulta!", description="API para consultas sobre películas by Carolina Garay",
+app = FastAPI(title="Películas...hacé tu consulta y te recomiendo!", description="API para consultas sobre películas by Carolina Garay",
                docs_url="/docs")
 
 #Carga de archivos .parquet para el consumo de la API
