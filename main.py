@@ -22,17 +22,18 @@ async def index():
 #Ruta de información
 @app.get("/Propietaria")
 async def Propietaria():
+    '''Se muestra la propitaria de la API'''
     return "Esta aplicación ha sido creada por Carolina Garay"
 
 #Ruta de cantidad de películas para un mes particular
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
 async def cantidad_peliculas_mes(mes: str):
-    '''Se ingresa el mes n mayúscula, por ejemplo Abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
+    '''Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
     mes = mes.lower()
     meses = {
-        'Enero': 1, 'Febrero': 2, 'Marzo': 3, 'Abril': 4,
-        'Mayo': 5, 'Junio': 6, 'Julio': 7, 'Agosto': 8,
-        'Septiembre': 9, 'Octubre': 10, 'Noviembre': 11, 'Diciembre': 12
+        'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,
+        'mayo': 5, 'junio': 6, 'julio': 7, 'agosto': 8,
+        'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12
     }
     if mes not in meses:
         raise HTTPException(status_code=400, detail=f"El mes {mes} no es válido")
@@ -46,8 +47,8 @@ async def cantidad_peliculas_dia(dia: str):
     '''Se ingresa el día en mayúscula por ejemplo Sábado, y la función retorna la cantidad de películas que se estrenaron ese día.'''
     dia = dia.lower()
     dias = {
-        'Lunes': 0, 'Martes': 1, 'Miércoles': 2, 'Jueves': 3,
-        'Viernes': 4, 'Sábado': 5, 'Domingo': 6
+        'lunes': 0, 'martes': 1, 'miércoles': 2, 'jueves': 3,
+        'viernes': 4, 'sábado': 5, 'domingo': 6
     }
     if dia not in dias:
         raise HTTPException(status_code=400, detail=f"El día {dia} no es válido")
