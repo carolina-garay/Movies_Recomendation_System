@@ -20,8 +20,8 @@ async def index():
     return "¡Bienvenid@ a la API de Películas by Carolina Garay!"
 
 # Ruta de información
-@app.get("/about")
-async def about():
+@app.get("/Creación")
+async def Creación():
     return "Esta aplicación ha sido creada por Carolina Garay"
 
 # Ruta de cantidad de filmaciones para un determinado mes 
@@ -134,41 +134,41 @@ async def get_director(nombre_director: str):
 
 
 #Machine Learning
-# Se realiza un preprocesamiento en la columna "genres" para separar los géneros y convertirlos en palabras individuales
+#Se separan los géneros y se convierten en palabras individuales
 model5['name_gen'] = model5['name_gen'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
-# Se realiza un preprocesamiento en la columna "tagline" para separar los géneros y convertirlos en palabras individuales
+#Se separan los slogans y se convierten en palabras individuales
 model5['tagline'] = model5['tagline'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
-# Se crea una instancia de la clase TfidfVectorizer con los parámetros deseados
+#Se crea una instancia de la clase TfidfVectorizer c
 tfidf_5 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
-# Aplicar la transformación TF-IDF al texto contenido en las columnas "overview_clean", "genres" y "director" del dataframe 'modelo4'
+#Aplicar la transformación TF-IDF y obtener matriz numérica
 tfidf_matriz_5 = tfidf_5.fit_transform(model5['name_gen'] + ' ' + model5['tagline'] + ' ' + model5['first_actor']+ ' ' + model5['first_director'])
-# Función para obtener recomendaciones
+#Función para obtener recomendaciones
 @app.get('/recomendacion/{titulo}', name = "Sistema de recomendación")
 async def recomendacion(titulo):
-    # Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
+    #Crear un objeto 'indices' que mapea los títulos de las películas a sus índices correspondientes en el DataFrame 'model1'
     indices = pd.Series(model5.index, index=model5['title']).drop_duplicates()
 
     if titulo not in indices:
         return 'La pelicula ingresada no se encuentra en la base de datos'
     else:
-        # Obtener el índice de la película que coincide con el título
+        #Obtener el índice de la película que coincide con el título
         idx = pd.Series(indices[titulo]) if titulo in indices else None
 
-        # Si el título de la película está duplicado, devolver el índice de la primera aparición del título en el DataFrame
+        #Si el título de la película está duplicado, devolver el índice de la primera aparición del título en el DataFrame
         if model5.duplicated(['title']).any():
             primer_idx = model5[model5['title'] == titulo].index[0]
             if not idx.equals(pd.Series(primer_idx)):
                 idx = pd.Series(primer_idx)
 
-        # Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
+        #Calcular la similitud coseno entre la película de entrada y todas las demás películas en la matriz de características
         cosine_sim = cosine_similarity(tfidf_matriz_5[idx], tfidf_matriz_5).flatten()
         simil = sorted(enumerate(cosine_sim), key=lambda x: x[1], reverse=True)[1:6]
 
-        # Verificar que los índices obtenidos son válidos
+        #Verificar que los índices obtenidos son válidos
         valid_indices = [i[0] for i in simil if i[0] < len(model5)]
 
-        # Obtener los títulos de las películas más similares utilizando el índice de cada película
+        #Obtener los títulos de las películas más similares utilizando el índice de cada película
         recomendaciones = model5.iloc[valid_indices]['title'].tolist()
 
-        # Devolver la lista de títulos de las películas recomendadas
+        #Devolver la lista de títulos de las películas recomendadas
         return recomendaciones
