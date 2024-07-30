@@ -1,30 +1,30 @@
-# Importación de librerías necesarias
+# Importación de librerías 
 from fastapi import FastAPI, HTTPException
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from typing import Optional
 
-# Punto de partida para construir una aplicación web API
+#Inicio
 app = FastAPI(title="Películas...hacé tu consulta!", description="API para consultas sobre películas by Carolina Garay",
                docs_url="/docs")
 
-# Leer los archivos .parquet para el consumo de la API
+#Carga de archivos .parquet para el consumo de la API
 df = pd.read_parquet("api_consult.parquet")
 model5 = pd.read_parquet("movies_model5.parquet")
 
 
-# Ruta de inicio
+#Ruta de inicio
 @app.get("/")
 async def index():
     return "¡Bienvenid@ a la API de Películas by Carolina Garay!"
 
-# Ruta de información
+#Ruta de información
 @app.get("/Creación")
 async def Creación():
     return "Esta aplicación ha sido creada por Carolina Garay"
 
-# Ruta de cantidad de filmaciones para un determinado mes 
+#Ruta de cantidad de películas para un mes particular
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
 async def cantidad_peliculas_mes(mes: str):
     '''Se ingresa el mes y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
@@ -40,10 +40,10 @@ async def cantidad_peliculas_mes(mes: str):
     cantidad = df[df['release_date'].dt.month == num_mes].shape[0]
     return f"En el mes de {mes} se estrenaron {cantidad} películas"
 
-# Ruta de cantidad de filmaciones para un determinado día 
+#Ruta de cantidad de películas para un día particular 
 @app.get("/cantidad_peliculas_dia/{dia}", name="Cantidad de películas (día)")
 async def cantidad_peliculas_dia(dia: str):
-    '''Se ingresa el día y la función retorna la cantidad de películas que se estrenaron ese día históricamente.'''
+    '''Se ingresa el día y la función retorna la cantidad de películas que se estrenaron ese día.'''
     dia = dia.lower()
     dias = {
         'lunes': 0, 'martes': 1, 'miércoles': 2, 'jueves': 3,
