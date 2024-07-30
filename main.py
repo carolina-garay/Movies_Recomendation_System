@@ -148,7 +148,7 @@ async def recomendacion(titulo):
     #Crear una serie que asigna un índice a cada título de las películas
     indices = pd.Series(model5.index, index=model5['title']).drop_duplicates()
     if titulo not in indices:
-        return 'La pelicula ingresada no se encuentra en la base de datos'
+        return 'La película ingresada no se encuentra en la base de datos'
     else:
         #Obtener el índice de la película que coincide con el título
         ind = pd.Series(indices[titulo]) if titulo in indices else None
