@@ -44,7 +44,7 @@ async def cantidad_peliculas_mes(mes: str):
 #Ruta de cantidad de películas para un día particular 
 @app.get("/cantidad_peliculas_dia/{dia}", name="Cantidad de películas (día)")
 async def cantidad_peliculas_dia(dia: str):
-    '''Se ingresa el día en mayúscula por ejemplo Sábado, y la función retorna la cantidad de películas que se estrenaron ese día.'''
+    '''Se ingresa el día en minúscula, por ejemplo sábado, y la función retorna la cantidad de películas que se estrenaron ese día.'''
     dia = dia.lower()
     dias = {
         'lunes': 0, 'martes': 1, 'miércoles': 2, 'jueves': 3,
@@ -59,7 +59,7 @@ async def cantidad_peliculas_dia(dia: str):
 #Ruta de score por título
 @app.get("/score_titulo/{titulo}", name="Score por título de película")
 async def score_titulo(titulo: str):
-    '''Se ingresa el título de una película y se retorna el título, el año de estreno y el score.'''
+    '''Se ingresa el título de una película, por ejemplo "Titanic", y se retorna el título, el año de estreno y el score.'''
     pelicula = df[df['title'].str.contains(titulo, case=False, na=False)]
     if pelicula.empty:
         raise HTTPException(status_code=404, detail="Título no encontrado.")
@@ -69,7 +69,7 @@ async def score_titulo(titulo: str):
 #Ruta de votos por título
 @app.get("/votos_titulo/{titulo}", name="Votos por título de película")
 async def votos_titulo(titulo: str):
-    '''Se ingresa el título de una película y se retorna el título, la cantidad de votos y el promedio de votaciones.'''
+    '''Se ingresa el título de una película, por ejemplo "The Terminator", y se retorna el título, la cantidad de votos y el promedio de votaciones.'''
     pelicula = df[df['title'].str.contains(titulo, case=False, na=False)]
     if pelicula.empty:
         raise HTTPException(status_code=404, detail="Título no encontrado.")
@@ -96,7 +96,7 @@ async def votos_titulo(titulo: str):
 #Ruta para obtener información de un actor
 @app.get("/get_actor/{nombre_actor}", name="Información de actor")
 async def get_actor(nombre_actor: str):
-    '''Se ingresa el nombre de un actor y se retorna su éxito medido a través del retorno, cantidad de películas y promedio de retorno.'''
+    '''Se ingresa el nombre de un actor, por ejemplo "Tom Hanks" y se retorna su éxito medido a través del retorno, cantidad de películas y promedio de retorno.'''
     actor_data = df[df['actors'].str.contains(nombre_actor, case=False, na=False)]
     if actor_data.empty:
         raise HTTPException(status_code=404, detail="Actor no encontrado.")
@@ -146,6 +146,7 @@ tfidf_matriz_5 = tfidf_5.fit_transform(model5['name_gen'] + ' ' + model5['taglin
 #Función para obtener recomendaciones
 @app.get('/recomendacion/{titulo}', name = "Sistema de recomendación")
 async def recomendacion(titulo):
+    '''Se ingresa el título de una película, por ejemplo "Avatar", devuelve 5 recomendaciones.'''
     #Crear una serie que asigna un índice a cada título de las películas
     indices = pd.Series(model5.index, index=model5['title']).drop_duplicates()
     if titulo not in indices:
