@@ -139,7 +139,7 @@ async def get_director(nombre_director: str):
 model5['name_gen'] = model5['name_gen'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
 #Se separan los slogans y se convierten en palabras individuales
 model5['tagline'] = model5['tagline'].fillna('').apply(lambda x: ' '.join(x.replace(',', ' ').replace('-', '').lower().split()))
-#Se crea una instancia de la clase TfidfVectorizer c
+#Se crea una instancia de la clase TfidfVectorizer 
 tfidf_5 = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
 #Aplicar la transformación TF-IDF y obtener matriz numérica
 tfidf_matriz_5 = tfidf_5.fit_transform(model5['name_gen'] + ' ' + model5['tagline'] + ' ' + model5['first_actor']+ ' ' + model5['first_director'])

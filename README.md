@@ -32,7 +32,7 @@ Este proyecto no sólo ha sido una excelente oportunidad para aplicar mis habili
 - :pushpin: Crear endpoints de API que permitan consultas específicas y recomendaciones de películas
 
 
-## 💡```Metodología de trabajo```
+## ```Metodología de trabajo```
 
 Para llevar a cabo los objetivos, se ejecutaron los siguientes procedimientos utilizando diversas herramientas:
 
@@ -105,6 +105,9 @@ Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para e
 
 - :five: ${\color{red} \textbf{Render}}$: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio y luego se conectó con el repositorio de Github donde se encuentra alojado el proyecto. Se tuvo que tener mucho cuidado al elegir el ML ya que el sitio tiene un límite de memoria de 512 Mb.
 
+
+## ```Deployment de la Api```
+ Para realizar consultas y recomdaciones dirigirse a la siguiente dirección: [carolina_Garay_Movies_Recomendation_System](https://movies-recomendation-system-2.onrender.com/docs)
 
 
 
