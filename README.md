@@ -108,10 +108,10 @@ Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para e
 
 
 
-## :white_check_mark: ```Deployment de la Api```
+## :white_check_mark: :sparkles: ```Deployment de la Api``` :sparkles:
  Para realizar consultas y recomendaciones de películas dirigirse a la siguiente dirección: [carolina_Garay_Movies_Recomendation_System](https://movies-recomendation-system-2.onrender.com/docs)
 
 
 
 
-
+## :white_check_mark: ```Video```
