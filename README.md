@@ -46,7 +46,7 @@ Para llevar a cabo los objetivos, se ejecutaron los siguientes procedimientos ut
 
 Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para ejecutar cada notebook se sugiere descargarlo y luego subir cada uno a Google Colaboratory.
 
-- :four: <font color='green'>Github: se usó esta plataforma para almacenar el proyecto. Se creó un repositorió con el nombre **Movies_Recomendation_System**. Este paso es imprescindible para deployar la Api en render, dado que se utiliza la dirección del repositorio para realizar el deploy. Cada cambio realizado a nivel local se iba actualizando en el repositorio
+- :four: **${\color{green}Github}$**: se usó esta plataforma para almacenar el proyecto. Se creó un repositorió con el nombre **Movies_Recomendation_System**. Este paso es imprescindible para deployar la Api en render, dado que se utiliza la dirección del repositorio para realizar el deploy. Cada cambio realizado a nivel local se iba actualizando en el repositorio
 
 - :five: <font color='green'>Render: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio y luego se conectó con el repositorio de Github donde se encuentra alojado el proyecto. Se tuvo que tener mucho cuidado al elegir el ML ya que el sitio tiene un límite de memoria de 512 Mb.
 
