@@ -117,5 +117,5 @@ Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para e
 
 ## :white_check_mark: ```Video```
 
-El siguiente video muestra el funcionamiento de la Api, es útil como guía para que realices tus consultas: :clapper: [Video](https:)
+El siguiente video muestra el funcionamiento de la Api, es útil como guía para que realices tus consultas: :clapper: [Video](https://drive.google.com/file/d/19C3_SZsZ5TxvlMdRhmuPh6b-XjGWRjEJ/view?usp=sharing)
 
