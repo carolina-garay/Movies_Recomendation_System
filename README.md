@@ -35,14 +35,15 @@ Este proyecto no sólo ha sido una excelente oportunidad para aplicar mis habili
 ## 💡```Metodología de trabajo```
 
 Para llevar a cabo los objetivos, se ejecutaron los siguientes procedimientos:
-:one: Visual Studio Code: se creó un directorio con el nombre del proyecto y se implementó un entorno virtual de forma local. En este entorno se procedió a crear la API junto a los end point ‘/’.
-:two: Google Colaboratory: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
+
+- :one: Visual Studio Code: se creó un directorio con el nombre del proyecto y se implementó un entorno virtual de forma local. En este entorno se procedió a crear la API junto a los end point ‘/’.
+- :two: Google Colaboratory: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
 - **ETL:** se realizó limpieza y transformación de los datos para garantizar la calidad y consistencia de la información utilizada en el sistema de recomendación.
 - **EDA:** este análisis se realizó con la finalidad de identificar patrones, tendencias y relaciones en los datos, así como detectar posibles outliers y anomalías. Dicho análisis posibilitó decidir cuáles atributos eran los adecuados para aplicar el Modelo de Machine Learning.
 - **Modelo de Machine Learning:** para el modelado se utilizaron  TF-IDF (Term Frequency-Inverse Document Frequency) y la similitud del coseno.Estas son dos técnicas fundamentales que se utilizan en procesamiento de lenguaje natural (NLP) para medir la relevancia de términos en documentos y para calcular la similitud entre ellos.
 
 Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para ejecutar cada notebook se sugiere descargarlo y luego subir cada uno a Google Colaboratory.
 
-:three: Render: se utilizó este sitio para desplegar el proyecto. 
+- :three: Render: se utilizó este sitio para desplegar el proyecto. 
 
 
