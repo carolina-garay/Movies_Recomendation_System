@@ -146,7 +146,7 @@ tfidf_matriz_5 = tfidf_5.fit_transform(model5['name_gen'] + ' ' + model5['taglin
 #Función para obtener recomendaciones
 @app.get('/recomendacion/{titulo}', name = "Sistema de recomendación")
 async def recomendacion(titulo):
-    '''Se ingresa el título de una película, por ejemplo "Avatar", devuelve 5 recomendaciones.'''
+    '''Se ingresa el título de una película, por ejemplo "Avatar", y devuelve 5 recomendaciones.'''
     #Crear una serie que asigna un índice a cada título de las películas
     indices = pd.Series(model5.index, index=model5['title']).drop_duplicates()
     if titulo not in indices:

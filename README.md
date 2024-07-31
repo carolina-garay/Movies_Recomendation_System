@@ -81,17 +81,23 @@ Los endpoints desarrollados fueron:
         "Retorno Total": total_retorno,
         "Películas": resultado}
         {
-            "Título de la película": row['title'],
-            "Fecha de lanzamiento": row['release_date'],
-            "Retorno": row['return'],
-            "Presupuesto": row['budget'],
-            "Ganancia": row['revenue']}
+            "Título de la película":   ,
+            "Fecha de lanzamiento":    ,
+            "Retorno":      ,
+            "Presupuesto":   ,
+            "Ganancia":    }
 
 Estos endpoints permitirán que los empleados de la empresa puedan hacer solicitudes específicas a la API para obtener información valiosa o realizar acciones específicas.
 - :three: ${\color{red} \textbf{Google Colaboratory}}$: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
     - **ETL:** se realizó limpieza y transformación de los datos para garantizar la calidad y consistencia de la información utilizada en el sistema de recomendación. El resultado del jupyter notebook (ETL_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para alimentar a la Api, se lo descargó en formato parquet con el nombre  api_consult.parquet.
     - **EDA:** este análisis se realizó con la finalidad de identificar patrones, tendencias y relaciones en los datos, así como detectar posibles outliers y anomalías. Dicho análisis posibilitó decidir cuáles atributos eran los adecuados para aplicar el Modelo de Machine Learning. El resultado del jupyter notebook (EDA_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para aplicar el modelo seleccionado.
-    - **Modelo de Machine Learning (ML):** para el modelado se seleccionaron TF-IDF (Term Frequency-Inverse Document Frequency) y la similitud del coseno. Estas son dos técnicas fundamentales que se utilizan en procesamiento de lenguaje natural (NLP) para medir la relevancia de términos en documentos y para calcular la similitud entre ellos. Los distintos modelos aplicados se encuentran en el notebook ML_Garay.ipynb
+    - **Modelo de Machine Learning (ML):** para el modelado se seleccionaron TF-IDF (Term Frequency-Inverse Document Frequency) y la similitud del coseno. Estas son dos técnicas fundamentales que se utilizan en procesamiento de lenguaje natural (NLP) para medir la relevancia de términos en documentos y para calcular la similitud entre ellos. Los distintos modelos aplicados se encuentran en el notebook ML_Garay.ipynb. Se eligió el modelo que responda al siguiente endpoint: 
+       - def recomendacion(titulo)```: Se ingresa el título de una película, por ejemplo "Avatar", y devuelve 5 recomendaciones.
+    
+
+                Formato de salida: ['titulo_recomendado1', 'titulo_recomendado2', 'titulo_recomendado3', 'titulo_recomendado4', 'titulo_recomendado5']
+    
+
 
 Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para ejecutar cada notebook se sugiere descargarlo y luego subir cada uno a Google Colaboratory.
 
