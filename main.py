@@ -25,7 +25,7 @@ async def Propietaria():
     '''Se muestra la propitaria de la API'''
     return "Esta aplicación ha sido creada por Carolina Garay"
 
-#Ruta de cantidad de películas para un mes particular
+#1 Ruta de cantidad de películas para un mes particular
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
 async def cantidad_peliculas_mes(mes: str):
     '''Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
@@ -41,7 +41,7 @@ async def cantidad_peliculas_mes(mes: str):
     cantidad = df[df['release_date'].dt.month == num_mes].shape[0]
     return f"En el mes de {mes} se estrenaron {cantidad} películas"
 
-#Ruta de cantidad de películas para un día particular 
+#2 Ruta de cantidad de películas para un día particular 
 @app.get("/cantidad_peliculas_dia/{dia}", name="Cantidad de películas (día)")
 async def cantidad_peliculas_dia(dia: str):
     '''Se ingresa el día en minúscula, por ejemplo sábado, y la función retorna la cantidad de películas que se estrenaron ese día.'''
@@ -56,7 +56,7 @@ async def cantidad_peliculas_dia(dia: str):
     cantidad = df[df['release_date'].dt.weekday == num_dia].shape[0]
     return f"En el día {dia} se estrenaron {cantidad} películas"
 
-#Ruta de score por título
+#3 Ruta de score por título
 @app.get("/score_titulo/{titulo}", name="Score por título de película")
 async def score_titulo(titulo: str):
     '''Se ingresa el título de una película, por ejemplo "Titanic", y se retorna el título, el año de estreno y el score.'''
@@ -66,7 +66,7 @@ async def score_titulo(titulo: str):
     resultado = pelicula[['title', 'release_year', 'vote_average']].to_dict(orient='records')[0]
     return {"Título de la película": resultado['title'], "Año": resultado['release_year'], "Puntaje": resultado['vote_average']}
 
-#Ruta de votos por título
+#4 Ruta de votos por título
 @app.get("/votos_titulo/{titulo}", name="Votos por título de película")
 async def votos_titulo(titulo: str):
     '''Se ingresa el título de una película, por ejemplo "The Terminator", y se retorna el título, la cantidad de votos y el promedio de votaciones.'''
@@ -93,7 +93,7 @@ async def votos_titulo(titulo: str):
         
 
 
-#Ruta para obtener información de un actor
+#5 Ruta para obtener información de un actor
 @app.get("/get_actor/{nombre_actor}", name="Información de actor")
 async def get_actor(nombre_actor: str):
     '''Se ingresa el nombre de un actor, por ejemplo "Tom Hanks" y se retorna su éxito medido a través del retorno, cantidad de películas y promedio de retorno.'''
@@ -110,7 +110,7 @@ async def get_actor(nombre_actor: str):
         "Retorno Promedio": promedio_retorno
     }
 
-#Ruta para obtener información de un director
+#6 Ruta para obtener información de un director
 @app.get("/get_director/{nombre_director}", name="Información de director")
 async def get_director(nombre_director: str):
     '''Se ingresa el nombre de un director y se retorna su éxito medido a través del retorno, nombre de cada película, fecha de lanzamiento, retorno individual, costo y ganancia.'''
