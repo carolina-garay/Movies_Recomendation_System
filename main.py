@@ -28,7 +28,7 @@ async def Propietaria():
 #1 Ruta de cantidad de películas para un mes particular
 @app.get("/cantidad_peliculas_mes/{mes}", name="Cantidad de películas  (mes)")
 async def cantidad_peliculas_mes(mes: str):
-    '''Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente.'''
+    '''Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron ese mes.'''
     mes = mes.lower()
     meses = {
         'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4,

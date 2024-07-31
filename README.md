@@ -42,9 +42,8 @@ Para llevar a cabo los objetivos, se ejecutaron los siguientes procedimientos ut
 
 Los endpoints desarrollados fueron: 
 
-- ```def cantidad_peliculas_mes(mes)```: Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron ese mes históricamente
+- ```def cantidad_peliculas_mes(mes)```: Se ingresa el mes en minúscula, por ejemplo abril, y la función retorna la cantidad de películas que se estrenaron en ese mes
     
-
         Formato de salida: En el mes de {mes} se estrenaron {cantidad} películas
 
 - ```def cantidad_peliculas_dia(dia)```: Se ingresa el día en minúscula, por ejemplo sábado, y la función retorna la cantidad de películas que se estrenaron ese día
@@ -52,19 +51,32 @@ Los endpoints desarrollados fueron:
 
         Formato de salida: En el día {dia} se estrenaron {cantidad} películas
 
-- ```def score_titulo(titulo)```: Consulta que devuelve el título, el año de estreno y el score de una filmación
+- ```def score_titulo(titulo)```: Se ingresa el título de una película, por ejemplo "Titanic", y se retorna el título, el año de estreno y el score.
+    
 
-        Formato de salida: {'titulo': titulo, 'anio': year, 'popularidad': score}
+        Formato de salida: "Título de la película": resultado['title'], "Año": resultado['release_year'], "Puntaje": resultado['vote_average']
 
-- ```def votos_titulo(titulo)```: Se ingresa el título de una película, por ejemplo "Titanic", y se retorna el título, el año de estreno y el score
+- ```def votos_titulo(titulo)```: Se ingresa el título de una película, por ejemplo "Titanic", y se retorna el título, el año de estreno y el score.
 
-        Formato de salida: {'titulo': titulo, 'año': year, 'voto_total': voto_total, 'voto_promedio': voto_promedio}
+        Formato de salida: {
+                'Título de la película': titulo, 
+                 'Año': year_es, 
+                 'Voto total': voto_tot, 
+                 'Voto promedio': voto_prom
+                                  }
 
-- ```def get_actor(nombre_actor)```: Consulta que devuelve el éxito de un actor medido a través del retorno de inversión, así como la cantidad de películas que en las que ha participado y el promedio de retorno.
+- ```def get_actor(nombre_actor)```: Se ingresa el nombre de un actor, por ejemplo "Tom Hanks" y se retorna su éxito medido a través del retorno, cantidad de películas y promedio de retorno.
+    
 
-        Formato de salida: {'actor': nombre_actor, 'cantidad_filmaciones': cantidad_peliculas, 'retorno_total': retorno_total, 'retorno_promedio': retorno_promedio}
+        Formato de salida: {
+        "Actor/Actriz": nombre_actor,
+        "Cantidad de películas": cantidad_peliculas,
+        "Retorno Total": total_retorno,
+        "Retorno Promedio": promedio_retorno
+                                }
 
-- ```def get_director(nombre_director)```: Consulta que devuelve el éxito de un director medido a través del retorno de inversión, nombre de cada película que ha dirigido con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma.
+- ```def get_director(nombre_director)```: Se ingresa el nombre de un director y se retorna su éxito medido a través del retorno, nombre de cada película, fecha de lanzamiento, retorno individual, costo y ganancia.
+    
 
         Formato de salida: {'director': nombre_director,
             'retorno_total_director': retorno_total_director,
@@ -77,7 +89,7 @@ Los endpoints desarrollados fueron:
         }],
             }
 
-Estos permitirán que los empleados de la empresa puedan hacer solicitudes específicas a la API para obtener información valiosa o realizar acciones específicas.
+Estos endpoints permitirán que los empleados de la empresa puedan hacer solicitudes específicas a la API para obtener información valiosa o realizar acciones específicas.
 - :three: ${\color{red} \textbf{Google Colaboratory}}$: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
     - **ETL:** se realizó limpieza y transformación de los datos para garantizar la calidad y consistencia de la información utilizada en el sistema de recomendación. El resultado del jupyter notebook (ETL_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para alimentar a la Api, se lo descargó en formato parquet con el nombre  api_consult.parquet.
     - **EDA:** este análisis se realizó con la finalidad de identificar patrones, tendencias y relaciones en los datos, así como detectar posibles outliers y anomalías. Dicho análisis posibilitó decidir cuáles atributos eran los adecuados para aplicar el Modelo de Machine Learning. El resultado del jupyter notebook (EDA_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para aplicar el modelo seleccionado.
