@@ -48,6 +48,6 @@ Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para e
 
 - :four: <font color='green'>Github: se usó esta plataforma para almacenar el proyecto. Se creó un repositorió con el nombre **Movies_Recomendation_System**. Este paso es imprescindible para deployar la Api en render, dado que se utiliza la dirección del repositorio para realizar el deploy.
 
-- :five: <font color='green'>Render: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio 
+- :five: <font color='green'>Render: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio <p style="color: red;">Esta es una oración coloreada en rojo.</p>
 
 
