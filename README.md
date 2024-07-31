@@ -72,22 +72,20 @@ Los endpoints desarrollados fueron:
         "Actor/Actriz": nombre_actor,
         "Cantidad de películas": cantidad_peliculas,
         "Retorno Total": total_retorno,
-        "Retorno Promedio": promedio_retorno
-                                }
+        "Retorno Promedio": promedio_retorno}
 
 - ```def get_director(nombre_director)```: Se ingresa el nombre de un director y se retorna su éxito medido a través del retorno, nombre de cada película, fecha de lanzamiento, retorno individual, costo y ganancia.
     
-
-        Formato de salida: {'director': nombre_director,
-            'retorno_total_director': retorno_total_director,
-            'peliculas': [{
-            'titulo': titulo,
-            'anio': anio,
-            'retorno_pelicula': retorno_pelicula,
-            'budget_pelicula': budget_pelicula,
-            'revenue_pelicula': revenue_pelicula
-        }],
-            }
+        Formato de salida: {
+        "Director": nombre_director,
+        "Retorno Total": total_retorno,
+        "Películas": resultado}
+        {
+            "Título de la película": row['title'],
+            "Fecha de lanzamiento": row['release_date'],
+            "Retorno": row['return'],
+            "Presupuesto": row['budget'],
+            "Ganancia": row['revenue']}
 
 Estos endpoints permitirán que los empleados de la empresa puedan hacer solicitudes específicas a la API para obtener información valiosa o realizar acciones específicas.
 - :three: ${\color{red} \textbf{Google Colaboratory}}$: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
