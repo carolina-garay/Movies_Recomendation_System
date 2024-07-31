@@ -87,7 +87,7 @@ Los endpoints desarrollados fueron:
             "Presupuesto":   ,
             "Ganancia":    }
 
-Estos endpoints permitirán que los empleados de la empresa puedan hacer solicitudes específicas a la API para obtener información valiosa o realizar acciones específicas.
+
 - :three: ${\color{red} \textbf{Google Colaboratory}}$: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
     - **ETL:** se realizó limpieza y transformación de los datos para garantizar la calidad y consistencia de la información utilizada en el sistema de recomendación. El resultado del jupyter notebook (ETL_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para alimentar a la Api, se lo descargó en formato parquet con el nombre  api_consult.parquet.
     - **EDA:** este análisis se realizó con la finalidad de identificar patrones, tendencias y relaciones en los datos, así como detectar posibles outliers y anomalías. Dicho análisis posibilitó decidir cuáles atributos eran los adecuados para aplicar el Modelo de Machine Learning. El resultado del jupyter notebook (EDA_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para aplicar el modelo seleccionado.
@@ -109,9 +109,13 @@ Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para e
 
 
 ## :white_check_mark: :sparkles: ```Deployment de la Api``` :sparkles:
+ 
  Para realizar consultas y recomendaciones de películas dirigirse a la siguiente dirección: [carolina_Garay_Movies_Recomendation_System](https://movies-recomendation-system-2.onrender.com/docs)
 
 
 
 
 ## :white_check_mark: ```Video```
+
+El siguiente video muestra el funcionamiento de la Api, es útil como guía para que realices tus consultas: :clapper: [Video](https:)
+
