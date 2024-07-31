@@ -36,20 +36,20 @@ Este proyecto no sólo ha sido una excelente oportunidad para aplicar mis habili
 
 Para llevar a cabo los objetivos, se ejecutaron los siguientes procedimientos utilizando diversas herramientas:
 
--  :one: <font color='green'>Google Drive: se utilizó la cuenta de quien les escribe para almacenar el conjunto de datos de los datasets, ambos conjuntos se descargaron en el notebook ETL_Garay.ipynb
+-  :one: ${\color{red} \textbf{Google Drive}}$: se utilizó la cuenta de quien les escribe para almacenar el conjunto de datos de los datasets, ambos conjuntos se descargaron en el notebook ETL_Garay.ipynb
 
-- :two: <font color='green'>Visual Studio Code: se utilizó este editor de código para crear un directorio con el nombre del proyecto y se implementó un entorno virtual de forma local. En este entorno se procedió a crear la API junto a los end point ‘/’.
-- :three: <font color='green'>Google Colaboratory: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
+- :two: ${\color{red} \textbf{Visual Studio Code}}$: se utilizó este editor de código para crear un directorio con el nombre del proyecto y se implementó un entorno virtual de forma local. En este entorno se procedió a crear la API junto a los end point ‘/’. Para la construcción de la Api se utilizó el framework de Python FastAPI
+- :three: ${\color{red} \textbf{Github}}$Google Colaboratory: Se utilizó esta plataforma para el desarrollo de los procesos ETL, EDA y Modelo de Machine Learning. 
     - **ETL:** se realizó limpieza y transformación de los datos para garantizar la calidad y consistencia de la información utilizada en el sistema de recomendación. El resultado del jupyter notebook (ETL_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para alimentar a la Api, se lo descargó en formato parquet con el nombre  api_consult.parquet.
     - **EDA:** este análisis se realizó con la finalidad de identificar patrones, tendencias y relaciones en los datos, así como detectar posibles outliers y anomalías. Dicho análisis posibilitó decidir cuáles atributos eran los adecuados para aplicar el Modelo de Machine Learning. El resultado del jupyter notebook (EDA_Garay.ipynb) desarrolado para esta etapa corresponde al conjunto de datos que se utilizó para aplicar el modelo seleccionado.
     - **Modelo de Machine Learning (ML):** para el modelado se seleccionaron TF-IDF (Term Frequency-Inverse Document Frequency) y la similitud del coseno. Estas son dos técnicas fundamentales que se utilizan en procesamiento de lenguaje natural (NLP) para medir la relevancia de términos en documentos y para calcular la similitud entre ellos. Los distintos modelos aplicados se encuentran en el notebook ML_Garay.ipynb
 
 Todas las tareas realizadas se encuentran en la carpeta ETL_EDA_ML_Garay. Para ejecutar cada notebook se sugiere descargarlo y luego subir cada uno a Google Colaboratory.
 
-- :four: **${\color{green} \textbf{Github}}$**: se usó esta plataforma para almacenar el proyecto. Se creó un repositorió con el nombre **Movies_Recomendation_System**. Este paso es imprescindible para deployar la Api en render, dado que se utiliza la dirección del repositorio para realizar el deploy. Cada cambio realizado a nivel local se iba actualizando en el repositorio
+- :four: ${\color{red} \textbf{Github}}$: se usó esta plataforma para almacenar el proyecto. Se creó un repositorió con el nombre **Movies_Recomendation_System**. Este paso es imprescindible para deployar la Api en render, dado que se utiliza la dirección del repositorio para realizar el deploy. Cada cambio realizado a nivel local se iba actualizando en el repositorio
 
-- :five: <font color='green'>Render: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio y luego se conectó con el repositorio de Github donde se encuentra alojado el proyecto. Se tuvo que tener mucho cuidado al elegir el ML ya que el sitio tiene un límite de memoria de 512 Mb.
+- :five: ${\color{red} \textbf{Render}}$: se utilizó este sitio para desplegar el proyecto. Primeramente se creó una cuenta en el sitio y luego se conectó con el repositorio de Github donde se encuentra alojado el proyecto. Se tuvo que tener mucho cuidado al elegir el ML ya que el sitio tiene un límite de memoria de 512 Mb.
 
-${\color{green}Green}$
+
 
 
